@@ -1,10 +1,18 @@
+
 import 'package:flutter/material.dart';
 import 'dart:math';
+//import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+
+//final openAI = OpenAI.instance.build(token: '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',baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)));
+
+dynamic player1= 'images/cross.png';
+dynamic aI;
 
 
 // the real game page
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
+
 
   @override
   State<GamePage> createState() => _GamePageState();
@@ -13,7 +21,7 @@ class GamePage extends StatefulWidget {
 class _GamePageState extends State<GamePage> {
 
   //algorithm for checking wins
-  var crossNoughtToggle= 'images/empty.png';
+  //DEFINING ALL VARIABLES AND FUNCTIONS
   String l1= 'images/empty.png';
   String l2= 'images/empty.png';
   String l3= 'images/empty.png';
@@ -41,6 +49,7 @@ class _GamePageState extends State<GamePage> {
   String u7= 'images/empty.png';
   String u8= 'images/empty.png';
   String u9= 'images/empty.png';
+
 
   bool horUWin() {
     if (u1== u2 && u2== u3 && (u3=='images/cross.png' ||u3=='images/nought.png') ){
@@ -220,30 +229,49 @@ class _GamePageState extends State<GamePage> {
   bool winCheck(){
     if (horLWin() || horMWin() || horUWin() || verBwin() || verMwin() || verFwin() || diagonalWin()){
       return true;
+      print ("WONNNNNNNNN");
     }
     else {
       return false;
     }
   }
 
-  bool moveValidity(){
-    if(){
-
+  bool moveValidity(cellNumber){
+    if(cellNumber == 'images/empty.png'){
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
-  void cellUpdate(cellNumber){
-
-  }
-
-  void firstMoveAssignment(){
+  firstMoveAssignment(){
     if (Random().nextInt(2)==1){
-      //player goes first so he is cross
+      // player1 is cross
+      player1= 'images/cross.png';
+      aI= 'images/nought.png';
     }
     else{
       //AI goes first with cross
+      player1= 'images/nought.png';
+      aI= 'images/cross.png';
     }
   }
+  void cellUpdate(String cellNumber, String players){
+    if (moveValidity(cellNumber)==true){
+      cellNumber= players;
+      setState(() {
+        cellNumber= players;
+        print(cellNumber);
+      });
+    }
+    else {
+      print("This cell has already been filled!!");
+    }
+  }
+
+  //CALLING FUNCTIONS REQUIRED FOR GAME INITIALIZATION
+
 
   @override
   Widget build(BuildContext context) {
@@ -274,6 +302,58 @@ class _GamePageState extends State<GamePage> {
                     child: TextButton(
                       onPressed: (){
                         print("u1 got pressed");
+                        if (moveValidity(u1)==true){
+                          u1= player1;
+                          setState(() {
+                            u1= player1;
+                          });
+                        }
+                        else {
+                          print("This cell has already been filled!!");
+                        }
+
+                      },
+                      child: Image.asset(u1),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.teal[100],
+                    child: TextButton(
+                      onPressed: (){
+                        print("u2 got pressed");
+                        if (moveValidity(u2)==true){
+                          u2= player1;
+                          setState(() {
+                            u2= player1;
+                          });
+                        }
+                        else {
+                          print("This cell has already been filled!!");
+                        }
+
+                      },
+                      child: Image.asset(u2),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.teal[200],
+                    child: TextButton(
+                      onPressed: (){
+                        print("u3 got pressed");
+                        cellUpdate(u3, player1);
+
+                      },
+                      child: Image.asset(u3),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.teal[200],
+                    child: TextButton(
+                      onPressed: (){
+                        print("u4 got pressed");
 
                       },
                       child: Image.asset(u1),
@@ -284,7 +364,7 @@ class _GamePageState extends State<GamePage> {
                     color: Colors.teal[200],
                     child: TextButton(
                       onPressed: (){
-                        print("u2 got pressed");
+                        print("u5 got pressed");
 
                       },
                       child: Image.asset(u1),
@@ -292,38 +372,47 @@ class _GamePageState extends State<GamePage> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    color: Colors.teal[300],
-                    child: const Text('Sound of screams but the'),
+                    color: Colors.teal[200],
+                    child: TextButton(
+                      onPressed: (){
+                        print("u6 got pressed");
+
+                      },
+                      child: Image.asset(u1),
+                    ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    color: Colors.teal[400],
-                    child: const Text('Who scream'),
+                    color: Colors.teal[200],
+                    child: TextButton(
+                      onPressed: (){
+                        print("u7 got pressed");
+
+                      },
+                      child: Image.asset(u1),
+                    ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    color: Colors.teal[500],
-                    child: const Text('Revolution is coming...'),
+                    color: Colors.teal[200],
+                    child: TextButton(
+                      onPressed: (){
+                        print("u8 got pressed");
+
+                      },
+                      child: Image.asset(u1),
+                    ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    color: Colors.teal[600],
-                    child: const Text('Revolution, they...'),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    color: Colors.teal[100],
-                    child: const Text("He'd have you all unravel at the"),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    color: Colors.teal[100],
-                    child: const Text("He'd have you all unravel at the"),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    color: Colors.teal[100],
-                    child: const Text("He'd have you all unravel at the"),
+                    color: Colors.teal[200],
+                    child: TextButton(
+                      onPressed: (){
+                        print("u9 got pressed");
+
+                      },
+                      child: Image.asset(u1),
+                    ),
                   ),
                 ],
               ),
@@ -342,48 +431,102 @@ class _GamePageState extends State<GamePage> {
                   children: <Widget>[
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[100],
-                      child: const Text("He'd have you all unravel at the"),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("m1 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
                       color: Colors.teal[200],
-                      child: const Text('Heed not the rabble'),
+                      child: TextButton(
+                        onPressed: (){
+                          print("m2 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[300],
-                      child: const Text('Sound of screams but the'),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("m3 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[400],
-                      child: const Text('Who scream'),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("m4 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[500],
-                      child: const Text('Revolution is coming...'),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("m5 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[600],
-                      child: const Text('Revolution, they...'),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("m6 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[100],
-                      child: const Text("He'd have you all unravel at the"),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("m7 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[100],
-                      child: const Text("He'd have you all unravel at the"),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("m8 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[100],
-                      child: const Text("He'd have you all unravel at the"),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("m9 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                   ],
                 )
@@ -402,48 +545,102 @@ class _GamePageState extends State<GamePage> {
                   children: <Widget>[
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[100],
-                      child: const Text("He'd have you all unravel at the"),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("l1 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
                       color: Colors.teal[200],
-                      child: const Text('Heed not the rabble'),
+                      child: TextButton(
+                        onPressed: (){
+                          print("l2 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[300],
-                      child: const Text('Sound of screams but the'),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("l3 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[400],
-                      child: const Text('Who scream'),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("l4 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[500],
-                      child: const Text('Revolution is coming...'),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("l5 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[600],
-                      child: const Text('Revolution, they...'),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("l6 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[100],
-                      child: const Text("He'd have you all unravel at the"),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("l7 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[100],
-                      child: const Text("He'd have you all unravel at the"),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("l8 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[100],
-                      child: const Text("He'd have you all unravel at the"),
+                      color: Colors.teal[200],
+                      child: TextButton(
+                        onPressed: (){
+                          print("l9 got pressed");
+
+                        },
+                        child: Image.asset(u1),
+                      ),
                     ),
                   ],
                 )
@@ -464,4 +661,4 @@ class _GamePageState extends State<GamePage> {
       ),
     );
   }
-}// TODO Implement this library.
+}
