@@ -1,4 +1,4 @@
-name: third_d_tictactoe
+name: T3D
 description: A game of fun and intelligence
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

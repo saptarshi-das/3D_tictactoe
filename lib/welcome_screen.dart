@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
+
 import 'package:flutter/material.dart';
 import 'gamepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +10,7 @@ import 'package:show_up_animation/show_up_animation.dart';
 int _currentIndex = 0;
 
 final List<ImageData> images = [
-  ImageData(imageLocation: 'images/boring.png',  description: "Playing regular 2D tic-tac-toe is like watching paint dry, it's time to level up and add some dimension to your game!",    ),
+  ImageData(imageLocation: 'images/boring.png',  description: "Bored in classes and even more bored with the same old rusty tic-tac-toe game?",    ),
   ImageData(imageLocation: 'images/intro.png',   description: 'Take your tic-tac-toe skills to the next level with 3D and add a new dimension to your strategy!',    ),
   ImageData(imageLocation: 'images/howplay.png', description: 'Outmaneuver your opponent in a game of 3D tic-tac-toe and conquer the space',    ),  ];
 class ImageData {
@@ -28,6 +29,8 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   bool _showWelcomeScreen = true;
+
+
 
   @override
   void initState() {
@@ -52,11 +55,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     }
   }
 
+  bool _visible (currentIndex){
+    if(currentIndex == 2){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_showWelcomeScreen) {
       return Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
+        backgroundColor: const Color(0xFFFFFFFF),
         body: Center(
           child: Column(
             children: [
@@ -66,6 +78,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   onPageChanged: (index) {
                     setState(() {
                       _currentIndex = index;
+                      _visible(_currentIndex);
                     });
                   },
                   itemBuilder: (context, index) {
@@ -82,7 +95,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               height: 300,
                               child: ShowUpAnimation(
                                 delayStart: const Duration(seconds:0),
-                                animationDuration: Duration(seconds: 1),
+                                animationDuration: const Duration(seconds: 1),
                                 curve: Curves.bounceIn,
                                 direction: Direction.vertical,
                                 offset: 0.5,
@@ -90,10 +103,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             ShowUpAnimation(
                               delayStart: const Duration(seconds:0),
-                              animationDuration: Duration(seconds: 1),
+                              animationDuration: const Duration(seconds: 1),
                               curve: Curves.bounceIn,
                               direction: Direction.vertical,
                               offset: 0.5,
@@ -121,20 +134,29 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      _setWelcomeScreenShown();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const GamePage()),
-                      );
-                    },
-                    child: const Text('Get Started'),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Visibility(
+                      visible: _visible(_currentIndex),
+                      maintainSize: true,
+                      maintainAnimation: true,
+                      maintainState: true,
+                      child: TextButton(
+                        onPressed: () {
+                          _setWelcomeScreenShown();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const GamePage()),
+                          );
+                        },
+                        child: const Text("Let's Play"),
+                      ),
+                    )
                   ),
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 35),
                 child: DotsIndicator(
                   dotsCount: images.length,
                   position: _currentIndex.toDouble(),

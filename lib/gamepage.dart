@@ -1,6 +1,7 @@
 import 'dart:io' show Platform, exit;
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'helppage.dart';
 //import 'dart:math';
 //import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 
@@ -158,7 +159,7 @@ class _GamePageState extends State<GamePage> {
     if (u1== m2 && m2== l3 && (l3=='images/cross.png' ||l3=='images/nought.png') ) {
       return true;
     }
-    if (u3== m2 && m2== u3 && (l1=='images/cross.png' ||l1=='images/nought.png') ) {
+    if (u3== m2 && m2== l1 && (l1=='images/cross.png' ||l1=='images/nought.png') ) {
       return true;
     }
     else{
@@ -180,7 +181,7 @@ class _GamePageState extends State<GamePage> {
     if (u4== m5 && m5== l6 && (l6=='images/cross.png' ||l6=='images/nought.png') ) {
       return true;
     }
-    if (u6== m5 && m5== u4 && (l4=='images/cross.png' ||l4=='images/nought.png') ) {
+    if (u6== m5 && m5== l4 && (l4=='images/cross.png' ||l4=='images/nought.png') ) {
       return true;
     }
     else{
@@ -202,7 +203,7 @@ class _GamePageState extends State<GamePage> {
     if (u7== m8 && m8== l9 && (l9=='images/cross.png' ||l9=='images/nought.png') ) {
       return true;
     }
-    if (u9== m8 && m8== u7 && (l7=='images/cross.png' ||l7=='images/nought.png') ) {
+    if (u9== m8 && m8== l7 && (l7=='images/cross.png' ||l7=='images/nought.png') ) {
       return true;
     }
     else{
@@ -462,8 +463,24 @@ class _GamePageState extends State<GamePage> {
       backgroundColor: Colors.blue[200],
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('3D Tic-Tac-Toe'),
+        title: Text('T3D',style: TextStyle(fontFamily: 'Carlito', fontWeight: FontWeight.w900)),
         backgroundColor: Colors.red,
+        actions: [
+          Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HelpPage()),
+                  );
+                },
+                child: const Icon(
+                    Icons.help
+                ),
+              )
+          ),
+        ],
       ),
 
       body: Center(
