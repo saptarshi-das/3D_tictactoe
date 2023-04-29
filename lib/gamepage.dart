@@ -1,13 +1,14 @@
-
+import 'dart:io' show Platform, exit;
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
+//import 'dart:math';
 //import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 
 //final openAI = OpenAI.instance.build(token: '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',baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)));
 
-dynamic player1= 'images/cross.png';
+dynamic player1;
 dynamic aI;
-
+var alertText;
 
 // the real game page
 class GamePage extends StatefulWidget {
@@ -16,12 +17,14 @@ class GamePage extends StatefulWidget {
 
   @override
   State<GamePage> createState() => _GamePageState();
+
 }
 
 class _GamePageState extends State<GamePage> {
 
   //algorithm for checking wins
   //DEFINING ALL VARIABLES AND FUNCTIONS
+  int moveCounter= 1;
   String l1= 'images/empty.png';
   String l2= 'images/empty.png';
   String l3= 'images/empty.png';
@@ -49,6 +52,7 @@ class _GamePageState extends State<GamePage> {
   String u7= 'images/empty.png';
   String u8= 'images/empty.png';
   String u9= 'images/empty.png';
+
 
 
   bool horUWin() {
@@ -220,19 +224,189 @@ class _GamePageState extends State<GamePage> {
     if (u7== m5 && m5== l3 && (l3=='images/cross.png' ||l3=='images/nought.png') ) {
       return true;
     }
+    if (u2== m5 && m5== l8 && (l8=='images/cross.png' ||l8=='images/nought.png') ) {
+      return true;
+    }
+    if (u6== m5 && m5== l4 && (l4=='images/cross.png' ||l4=='images/nought.png') ) {
+      return true;
+    }
+    if (u8== m5 && m5== l2 && (l2=='images/cross.png' ||l2=='images/nought.png') ) {
+      return true;
+    }
+    if (u4== m5 && m5== l6 && (l6=='images/cross.png' ||l6=='images/nought.png') ) {
+      return true;
+    }
     else{
       return false;
     }
 
   }
 
-  bool winCheck(){
+  void winCheck(){
     if (horLWin() || horMWin() || horUWin() || verBwin() || verMwin() || verFwin() || diagonalWin()){
-      return true;
+      //return true;
       print ("WONNNNNNNNN");
+      if (player1== "images/cross.png"){
+        alertText = "Cross won this game!!";
+      }
+      else {
+        alertText= "Nought won this game!!";
+      }
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text("Game Won"),
+          content: Text(alertText),
+          actions: [
+            TextButton(
+              onPressed: () {
+                if (Platform.isAndroid) {
+                  SystemNavigator.pop();
+                } else if (Platform.isIOS) {
+                  exit(0);
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                child: const Text("Quit", style: TextStyle(color: Colors.black38),),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  l1= 'images/empty.png';
+                  l2= 'images/empty.png';
+                  l3= 'images/empty.png';
+                  l4= 'images/empty.png';
+                  l5= 'images/empty.png';
+                  l6= 'images/empty.png';
+                  l7= 'images/empty.png';
+                  l8= 'images/empty.png';
+                  l9= 'images/empty.png';
+                  m1= 'images/empty.png';
+                  m2= 'images/empty.png';
+                  m3= 'images/empty.png';
+                  m4= 'images/empty.png';
+                  m5= 'images/empty.png';
+                  m6= 'images/empty.png';
+                  m7= 'images/empty.png';
+                  m8= 'images/empty.png';
+                  m9= 'images/empty.png';
+                  u1= 'images/empty.png';
+                  u2= 'images/empty.png';
+                  u3= 'images/empty.png';
+                  u4= 'images/empty.png';
+                  u5= 'images/empty.png';
+                  u6= 'images/empty.png';
+                  u7= 'images/empty.png';
+                  u8= 'images/empty.png';
+                  u9= 'images/empty.png';
+                });
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                child: const Text("Play again", style: TextStyle(color: Colors.green),),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    //What happens in a draw
+    else if (
+    u1!='images/empty.png'&&
+    u2!='images/empty.png'&&
+    u3!='images/empty.png'&&
+    u4!='images/empty.png'&&
+    u5!='images/empty.png'&&
+    u6!='images/empty.png'&&
+    u7!='images/empty.png'&&
+    u8!='images/empty.png'&&
+    u9!='images/empty.png'&&
+    m1!='images/empty.png'&&
+    m2!='images/empty.png'&&
+    m3!='images/empty.png'&&
+    m4!='images/empty.png'&&
+    m5!='images/empty.png'&&
+    m6!='images/empty.png'&&
+    m7!='images/empty.png'&&
+    m8!='images/empty.png'&&
+    m9!='images/empty.png'&&
+    l1!='images/empty.png'&&
+    l2!='images/empty.png'&&
+    l3!='images/empty.png'&&
+    l4!='images/empty.png'&&
+    l5!='images/empty.png'&&
+    l6!='images/empty.png'&&
+    l7!='images/empty.png'&&
+    l8!='images/empty.png'&&
+    l9!='images/empty.png'
+    ){
+      alertText ='This game was a draw';
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text("Draw Game"),
+          content: Text(alertText),
+          actions: [
+            TextButton(
+              onPressed: () {
+                if (Platform.isAndroid) {
+                  SystemNavigator.pop();
+                } else if (Platform.isIOS) {
+                  exit(0);
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                child: const Text("Quit", style: TextStyle(color: Colors.black38),),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  l1= 'images/empty.png';
+                  l2= 'images/empty.png';
+                  l3= 'images/empty.png';
+                  l4= 'images/empty.png';
+                  l5= 'images/empty.png';
+                  l6= 'images/empty.png';
+                  l7= 'images/empty.png';
+                  l8= 'images/empty.png';
+                  l9= 'images/empty.png';
+                  m1= 'images/empty.png';
+                  m2= 'images/empty.png';
+                  m3= 'images/empty.png';
+                  m4= 'images/empty.png';
+                  m5= 'images/empty.png';
+                  m6= 'images/empty.png';
+                  m7= 'images/empty.png';
+                  m8= 'images/empty.png';
+                  m9= 'images/empty.png';
+                  u1= 'images/empty.png';
+                  u2= 'images/empty.png';
+                  u3= 'images/empty.png';
+                  u4= 'images/empty.png';
+                  u5= 'images/empty.png';
+                  u6= 'images/empty.png';
+                  u7= 'images/empty.png';
+                  u8= 'images/empty.png';
+                  u9= 'images/empty.png';
+                });
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                child: const Text("Play again", style: TextStyle(color: Colors.green),),
+              ),
+            ),
+          ],
+        ),
+      );
     }
     else {
-      return false;
+      print ("Game can continue");
     }
   }
 
@@ -241,36 +415,45 @@ class _GamePageState extends State<GamePage> {
       return true;
     }
     else {
+      //moveCounter--;
       return false;
     }
   }
 
-  firstMoveAssignment(){
-    if (Random().nextInt(2)==1){
+  //firstMoveAssignment(){
+    //if (Random().nextInt(2)==1){
       // player1 is cross
-      player1= 'images/cross.png';
-      aI= 'images/nought.png';
-    }
-    else{
+      //player1= 'images/cross.png';
+      //aI= 'images/nought.png';
+    //}
+    //else{
       //AI goes first with cross
-      player1= 'images/nought.png';
-      aI= 'images/cross.png';
-    }
-  }
-  void cellUpdate(String cellNumber, String players){
-    if (moveValidity(cellNumber)==true){
-      cellNumber= players;
-      setState(() {
-        cellNumber= players;
-        print(cellNumber);
-      });
+      //player1= 'images/nought.png';
+      //aI= 'images/cross.png';
+    //}
+  //}
+  //void cellUpdate(String cellNumber, String players){
+    //if (moveValidity(cellNumber)==true){
+      //cellNumber= players;
+      //setState(() {
+        //cellNumber= players;
+        //print(cellNumber);
+      //});
+    //}
+    //else {
+      //print("This cell has already been filled!!");
+    //}
+  //}
+
+  void moveCount(){
+    moveCounter++;
+    if (moveCounter%2!=1){
+      player1= 'images/cross.png';
     }
     else {
-      print("This cell has already been filled!!");
+      player1= 'images/nought.png';
     }
   }
-
-  //CALLING FUNCTIONS REQUIRED FOR GAME INITIALIZATION
 
 
   @override
@@ -303,7 +486,7 @@ class _GamePageState extends State<GamePage> {
                       onPressed: (){
                         print("u1 got pressed");
                         if (moveValidity(u1)==true){
-                          u1= player1;
+                          moveCount();
                           setState(() {
                             u1= player1;
                           });
@@ -311,7 +494,7 @@ class _GamePageState extends State<GamePage> {
                         else {
                           print("This cell has already been filled!!");
                         }
-
+                        winCheck();
                       },
                       child: Image.asset(u1),
                     ),
@@ -321,9 +504,8 @@ class _GamePageState extends State<GamePage> {
                     color: Colors.teal[100],
                     child: TextButton(
                       onPressed: (){
-                        print("u2 got pressed");
                         if (moveValidity(u2)==true){
-                          u2= player1;
+                          moveCount();
                           setState(() {
                             u2= player1;
                           });
@@ -331,87 +513,149 @@ class _GamePageState extends State<GamePage> {
                         else {
                           print("This cell has already been filled!!");
                         }
-
+                        winCheck();
                       },
                       child: Image.asset(u2),
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    color: Colors.teal[200],
+                    color: Colors.teal[100],
                     child: TextButton(
                       onPressed: (){
                         print("u3 got pressed");
-                        cellUpdate(u3, player1);
-
+                        if (moveValidity(u3)==true){
+                          moveCount();
+                          setState(() {
+                            u3= player1;
+                          });
+                        }
+                        else {
+                          print("This cell has already been filled!!");
+                        }
+                        winCheck();
                       },
                       child: Image.asset(u3),
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    color: Colors.teal[200],
+                    color: Colors.teal[100],
                     child: TextButton(
                       onPressed: (){
                         print("u4 got pressed");
-
+                        if (moveValidity(u4)==true){
+                          moveCount();
+                          setState(() {
+                            u4= player1;
+                          });
+                        }
+                        else {
+                          print("This cell has already been filled!!");
+                        }
+                        winCheck();
                       },
-                      child: Image.asset(u1),
+                      child: Image.asset(u4),
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    color: Colors.teal[200],
+                    color: Colors.teal[100],
                     child: TextButton(
                       onPressed: (){
                         print("u5 got pressed");
-
+                        if (moveValidity(u5)==true){
+                          moveCount();
+                          setState(() {
+                            u5= player1;
+                          });
+                        }
+                        else {
+                          print("This cell has already been filled!!");
+                        }
+                        winCheck();
                       },
-                      child: Image.asset(u1),
+                      child: Image.asset(u5),
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    color: Colors.teal[200],
+                    color: Colors.teal[100],
                     child: TextButton(
                       onPressed: (){
                         print("u6 got pressed");
-
+                        if (moveValidity(u6)==true){
+                          moveCount();
+                          setState(() {
+                            u6= player1;
+                          });
+                        }
+                        else {
+                          print("This cell has already been filled!!");
+                        }
+                        winCheck();
                       },
-                      child: Image.asset(u1),
+                      child: Image.asset(u6),
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    color: Colors.teal[200],
+                    color: Colors.teal[100],
                     child: TextButton(
                       onPressed: (){
                         print("u7 got pressed");
-
+                        if (moveValidity(u7)==true){
+                          moveCount();
+                          setState(() {
+                            u7 = player1;
+                          });
+                        }
+                        else {
+                          print("This cell has already been filled!!");
+                        }
+                        winCheck();
                       },
-                      child: Image.asset(u1),
+                      child: Image.asset(u7),
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    color: Colors.teal[200],
+                    color: Colors.teal[100],
                     child: TextButton(
                       onPressed: (){
                         print("u8 got pressed");
-
+                        if (moveValidity(u8)==true){
+                          moveCount();
+                          setState(() {
+                            u8= player1;
+                          });
+                        }
+                        else {
+                          print("This cell has already been filled!!");
+                        }
+                        winCheck();
                       },
-                      child: Image.asset(u1),
+                      child: Image.asset(u8),
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    color: Colors.teal[200],
+                    color: Colors.teal[100],
                     child: TextButton(
                       onPressed: (){
                         print("u9 got pressed");
-
+                        if (moveValidity(u9)==true){
+                          moveCount();
+                          setState(() {
+                            u9= player1;
+                          });
+                        }
+                        else {
+                          print("This cell has already been filled!!");
+                        }
+                        winCheck();
                       },
-                      child: Image.asset(u1),
+                      child: Image.asset(u9),
                     ),
                   ),
                 ],
@@ -431,101 +675,191 @@ class _GamePageState extends State<GamePage> {
                   children: <Widget>[
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("m1 got pressed");
+                          if (moveValidity(m1)==true){
+                            moveCount();
+                            setState(() {
+                              m1= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(m1),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("m2 got pressed");
+                          if (moveValidity(m2)==true){
+                            moveCount();
+                            setState(() {
+                              m2= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(m2),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("m3 got pressed");
+                          if (moveValidity(m3)==true){
+                            moveCount();
+                            setState(() {
+                              m3= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(m3),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("m4 got pressed");
+                          if (moveValidity(m4)==true){
+                            moveCount();
+                            setState(() {
+                              m4= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(m4),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("m5 got pressed");
+                          if (moveValidity(m5)==true){
+                            moveCount();
+                            setState(() {
+                              m5= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(m5),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("m6 got pressed");
+                          if (moveValidity(m6)==true){
+                            moveCount();
+                            setState(() {
+                              m6= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(m6),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("m7 got pressed");
+                          if (moveValidity(m7)==true){
+                            moveCount();
+                            setState(() {
+                              m7= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(m7),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("m8 got pressed");
+                          if (moveValidity(m8)==true){
+                            moveCount();
+                            setState(() {
+                              m8= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(m8),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("m9 got pressed");
+                          if (moveValidity(m9)==true){
+                            moveCount();
+                            setState(() {
+                              m9= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(m9),
                       ),
                     ),
                   ],
@@ -545,101 +879,191 @@ class _GamePageState extends State<GamePage> {
                   children: <Widget>[
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("l1 got pressed");
+                          if (moveValidity(l1)==true){
+                            moveCount();
+                            setState(() {
+                              l1= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(l1),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("l2 got pressed");
+                          if (moveValidity(l2)==true){
+                            moveCount();
+                            setState(() {
+                              l2= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(l2),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("l3 got pressed");
+                          if (moveValidity(l3)==true){
+                            moveCount();
+                            setState(() {
+                              l3= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(l3),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("l4 got pressed");
+                          if (moveValidity(l4)==true){
+                            moveCount();
+                            setState(() {
+                              l4= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(l4),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("l5 got pressed");
+                          if (moveValidity(l5)==true){
+                            moveCount();
+                            setState(() {
+                              l5= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(l5),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("l6 got pressed");
+                          if (moveValidity(l6)==true){
+                            moveCount();
+                            setState(() {
+                              l6= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(l6),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("l7 got pressed");
+                          if (moveValidity(l7)==true){
+                            moveCount();
+                            setState(() {
+                              l7= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(l7),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("l8 got pressed");
+                          if (moveValidity(l8)==true){
+                            moveCount();
+                            setState(() {
+                              l8= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(l8),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
-                      color: Colors.teal[200],
+                      color: Colors.teal[100],
                       child: TextButton(
                         onPressed: (){
                           print("l9 got pressed");
+                          if (moveValidity(l9)==true){
+                            moveCount();
+                            setState(() {
+                              l9= player1;
+                            });
+                          }
+                          else {
+                            print("This cell has already been filled!!");
+                          }
+                          winCheck();
 
                         },
-                        child: Image.asset(u1),
+                        child: Image.asset(l9),
                       ),
                     ),
                   ],
