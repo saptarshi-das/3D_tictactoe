@@ -1,10 +1,6 @@
-# third_d_tictactoe
+# 3D_Tictactoe
 
 A game of fun and intelligence
 
 ## Getting Started
-
-
-
-# 3D_tictactoe
-# 3D_tictactoe
+This project is all about creating a 3D tictactoe to practice my flutter skills
